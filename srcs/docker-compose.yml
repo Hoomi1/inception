@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+    nginx:
+        build: /requirements/nginx
+        image: nginx
+        container_name: nginx
+        volumes: [/var/www/html]
+        env_file:
+            - .env
+        restart: always
+        networks:
+            - cyuuki
+        ports: [443:443]
+
+    wordpress:
+        build: /requirements/wordpress
+        image: wordpress
+        container_name: wordpress
+        volumes: [/var/www/html]
+        env_file:
+            - .env
+        restart: always
+        networks:
+            - cyuuki
+            - netcyuuki
+
+    mariadb:
+        build: /requirements/mariadb
+        image: mariadb
+        container_name: mariadb
+        volumes: [/var/lib/mysql]
+        env_file:
+            - .env
+        restart: always
+        networks:
+            - netcyuuki
+
