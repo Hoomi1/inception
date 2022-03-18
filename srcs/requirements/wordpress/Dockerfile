@@ -16,4 +16,4 @@ RUN chmod 777 start_wordpress.sh
 
 EXPOSE 9000
 
-CMD ["bash", "start_wordpress.sh"]
+ENTRYPOINT ["bash", "start_wordpress.sh"]

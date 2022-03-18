@@ -1,10 +1,14 @@
-echo "CREATE DATABASE $NAME_DB;" | mysql -u root --skip-password
-echo "CREATE USER $USER_DB IDENTIFIED BY $PASSWORD_USER_DB" | mysql -u root --skip-password
-echo "GRANT ALL PRIVILEGES ON $NAME_DB.* TO '$USER_DB'@'%' WITH GRANT OPTION;" | mysql -u root --skip-password
-echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
+chown -R mysql:mysql /var/lib/mysql
 
-mysqladmin -u root password $PASSWORD_USER_DB
+service mysql start
+
+mysql -u root --skip-password -e "CREATE DATABASE $NAME_DB;" 
+mysql -u root --skip-password -e "CREATE USER '$USER_DB'@'%' IDENTIFIED BY '$PASSWORD_USER_DB';"
+mysql -u root --skip-password -e "GRANT ALL PRIVILEGES ON $NAME_DB.* TO $USER_DB@'%';"
+mysql -u root --skip-password -e "FLUSH PRIVILEGES;"
+
+mysqladmin -u root password $PASSWORD_ROOT_DB
+
 service mysql stop
-
 
 usr/bin/mysqld_safe
