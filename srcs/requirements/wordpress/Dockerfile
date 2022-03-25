@@ -9,10 +9,13 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 	&& apt remove -y wget
 RUN wp core download --path=usr/src/wordpress --allow-root
 
-RUN sed -i 's/\/run\/php\/php7.3-fpm.sock/wordpress:9000/' etc/php/7.3/fpm/pool.d/www.conf
-
+# RUN sed -i 's/\/run\/php\/php7.3-fpm.sock/wordpress:9000/' etc/php/7.3/fpm/pool.d/www.conf
+COPY tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 COPY tools/start_wordpress.sh ./
-RUN chmod 777 start_wordpress.sh
+# COPY tools/php-fpm.conf etc/php/7.3/fpm/
+
+COPY tools/wp-config.php ./
+RUN chmod 755 start_wordpress.sh /etc/php/7.3/fpm/pool.d/www.conf ./wp-config.php
 
 EXPOSE 9000
 
