@@ -51,6 +51,20 @@ services:
       - cyuuki
     ports: [6379:6379]
 
+  adminer:
+    build: requirements/bonus/adminer
+    image: adminer
+    container_name: adminer
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - 8080:8080
+    networks:
+      - cyuuli
+
 volumes:
 
   mariadb: {driver: local, name: mariadb, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/mariadb}}
