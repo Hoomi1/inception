@@ -1,7 +1,7 @@
 #!/bin/bash
 mkdir -p run/php
 mkdir -p var/www
-mkdir -p var/www/html
+mkdir -p var/www/html/
 
 while ! mysql -h ${WP_HOST} -u $USER_DB -p$PASSWORD_USER_DB $NAME_DB -e "SELECT 'OK' AS status;"; do
 	sleep 5

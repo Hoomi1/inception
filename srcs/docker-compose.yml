@@ -55,15 +55,31 @@ services:
     build: requirements/bonus/adminer
     image: adminer
     container_name: adminer
+    volumes: [wordpress:/var/www/html]
+    # env_file:
+    #   - .env
+    depends_on:
+      - wordpress
+    # ports:
+    #   - 8080:8080
+    networks:
+      - cyuuki
+  ftp:
+    build: requirements/bonus/ftp
+    image: ftp
+    container_name: ftp
+    volumes: [wordpress:/var/www/html]
     env_file:
       - .env
     restart: always
     depends_on:
-      - mariadb
+      - wordpress
     ports:
-      - 8080:8080
+      - "21:21"
+      - "20:20"
+
     networks:
-      - cyuuli
+      - cyuuki
 
 volumes:
 
