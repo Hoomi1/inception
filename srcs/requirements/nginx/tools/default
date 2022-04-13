@@ -3,7 +3,6 @@ server {
 	listen [::]:443 ssl;
 	server_name cyuuki.42.fr www.cyuuki.42.fr;
 
-	ssl on;
 	ssl_certificate /etc/ssl/nginx-mykey.crt;
 	ssl_certificate_key /etc/ssl/nginx-mykey.key;
 	ssl_protocols TLSv1.2 TLSv1.3;
@@ -11,9 +10,9 @@ server {
 	root /var/www/html/wordpress;
 	autoindex off;
 	index index.php;
-	location / {
-		try_files $uri $uri/ =404;
-	}
+	# location / {
+	# 	try_files $uri $uri/ =404;
+	# }
 	
 	location ~ \.php$
 	{
@@ -23,6 +22,12 @@ server {
 		fastcgi_pass			wordpress:9000;
 		fastcgi_param			SCRIPT_FILENAME $document_root$fastcgi_script_name;
 		fastcgi_param			PATH_INFO $fastcgi_path_info;
+	}
+
+	location /site
+	{
+		rewrite		/site(.*) /$1 break;
+		proxy_pass	https://site:443;
 	}
 }
 

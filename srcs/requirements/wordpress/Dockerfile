@@ -7,7 +7,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 	&& chmod 777 wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp \
 	&& apt remove -y wget
-RUN wp core download --path=usr/src/wordpress --allow-root
+#?
+RUN wp core download --path=usr/src/wordpress --allow-root 
 
 # RUN sed -i 's/\/run\/php\/php7.3-fpm.sock/wordpress:9000/' etc/php/7.3/fpm/pool.d/www.conf
 COPY tools/www.conf /etc/php/7.3/fpm/pool.d/www.conf

@@ -4,18 +4,21 @@ all:
 cleanv:
 	sudo rm -rf /home/cyuuki/data/mariadb/*
 	sudo rm -rf /home/cyuuki/data/wordpress/*
+	sudo rm -rf /home/cyuuki/data/portainer/*
 
 cleand:
 	docker-compose -f srcs/docker-compose.yml down
 	docker volume rm $$(docker volume ls -q)
 	sudo rm -rf /home/cyuuki/data/mariadb/*
 	sudo rm -rf /home/cyuuki/data/wordpress/*
+	sudo rm -rf /home/cyuuki/data/portainer/*
 
 fclean:
 	docker-compose -f srcs/docker-compose.yml down
 	docker image prune --all
 	sudo rm -rf /home/cyuuki/data/mariadb/*
 	sudo rm -rf /home/cyuuki/data/wordpress/*
+	sudo rm -rf /home/cyuuki/data/portainer/*
 	docker volume rm $$(docker volume ls -q)
 
 stop:

@@ -1,5 +1,20 @@
 version: '3'
 
+volumes:
+
+  mariadb: {driver: local, name: mariadb, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/mariadb}}
+
+  wordpress: {driver: local, name: wordpress, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/wordpress}}
+
+  portainer_data:
+  # {driver: local, name: portainer, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/portainer}}
+
+networks:
+
+  cyuuki:
+      name: cyuuki
+      driver: bridge
+
 services:
 
   nginx:
@@ -78,18 +93,24 @@ services:
       - "21:21"
       - "20:20"
       - "21000-21000:21000-21000"
-
     networks:
       - cyuuki
+  site:
+    build: requirements/bonus/site
+    image: site
+    container_name: site
+    restart: always
+    networks:
+      - cyuuki
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    restart: always
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
-volumes:
-
-  mariadb: {driver: local, name: mariadb, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/mariadb}}
-
-  wordpress: {driver: local, name: wordpress, driver_opts: {type: none, o: bind, device: /home/cyuuki/data/wordpress}}
-
-networks:
-
-  cyuuki:
-      name: cyuuki
-      driver: bridge
